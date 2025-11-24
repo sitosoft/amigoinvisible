@@ -1,0 +1,54 @@
+/* Efecto de nieve simple y ligero. Ajusta variables según prefieras. */
+:root{
+  --snow-color: #ffffff;
+  --snow-opacity: 0.9;
+  --snow-size-a: 2px; /* tamaño de copos pequeños */
+  --snow-size-b: 3px; /* tamaño de copos grandes */
+}
+
+.snowy {
+  background-color: #000000;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Se usan dos pseudo-elementos con patrones repetidos y animación distinta
+   para crear sensación de profundidad y caída continua. */
+.snowy::before,
+.snowy::after{
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 130%;
+  background-repeat: repeat;
+  background-position: 0 0;
+  opacity: var(--snow-opacity);
+}
+
+/* Copos más densos y lentos */
+.snowy::before{
+  background-image: radial-gradient(var(--snow-color) var(--snow-size-b), rgba(255,255,255,0) var(--snow-size-b));
+  background-size: 30px 30px;
+  animation: snow-fall 18s linear infinite;
+}
+
+/* Copos más pequeños y rápidos */
+.snowy::after{
+  background-image: radial-gradient(var(--snow-color) var(--snow-size-a), rgba(255,255,255,0) var(--snow-size-a));
+  background-size: 12px 12px;
+  animation: snow-fall 9s linear infinite reverse;
+}
+
+@keyframes snow-fall{
+  from{ transform: translateY(-5%); }
+  to{ transform: translateY(105%); }
+}
+
+/* Opcional: suavizar la visibilidad en pantallas pequeñas */
+@media (max-width: 480px){
+  .snowy::before{ opacity: 0.6; }
+  .snowy::after{ opacity: 0.45; }
+}
